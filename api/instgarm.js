@@ -3,6 +3,7 @@ export default async function handler(req, res) {
 
   if (!username) {
     return res.status(200).json({
+      ok: false,
       full_name: "Not Found",
       username: "",
       posts: "0",
@@ -29,6 +30,7 @@ export default async function handler(req, res) {
 
     if (!profile) {
       return res.status(200).json({
+        ok: false,
         full_name: "Not Found",
         username,
         posts: "0",
@@ -39,6 +41,7 @@ export default async function handler(req, res) {
     }
 
     return res.status(200).json({
+      ok: true,
       full_name: String(profile.name || ""),
       username: String(profile.username || username),
       posts: String(profile.posts || "0"),
@@ -46,10 +49,13 @@ export default async function handler(req, res) {
       following: String(profile.following || "0"),
       profile_picture: String(
         profile.avatar || "https://i.imgur.com/6VBx3io.png"
-      )
+      ),
+      debug_username: username
     });
   } catch (e) {
     return res.status(200).json({
+      ok: false,
+      error: String(e),
       full_name: "Error",
       username,
       posts: "0",
